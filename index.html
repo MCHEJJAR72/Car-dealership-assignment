@@ -1,0 +1,63 @@
+Step-by-Step Process:
+Understanding the Business Rules:
+Define entities (e.g., Customers, Cars, Salespersons, Transactions).
+Identify relationships between entities (e.g., Customer buys Car, Salesperson handles Transaction).
+Designing the ERD:
+Use Lucidchart (or any other ERD tool) to create an Entity-Relationship Diagram based on the identified entities and relationships.
+Generating SQL Code:
+Translate the ERD into SQL code to create the database schema.
+Populating Data:
+Insert sample data into tables, including using stored functions where required.
+Setting up in DBeaver:
+Create the database and tables in DBeaver using the SQL code.
+Insert sample data directly or through scripts.
+Example ERD:
+Here’s a simplified example ERD for a car dealership scenario:
+Entities:
+Customer: Stores information about customers.
+Car: Details about cars available in the dealership.
+Salesperson: Information about salespersons.
+Transaction: Records transactions between customers and salespersons.
+Relationships:
+Sells: Connects Salesperson and Car indicating which salesperson sells which cars.
+Purchases: Connects Customer and Car indicating which customer purchases which cars.
+Handles: Connects Salesperson and Transaction showing which salesperson handled which transaction.
+SQL Code Example:
+Based on the above ERD, here’s an example of SQL code to create the necessary tables:
+-- Create tables
+CREATE TABLE Customer (customer_id INT PRIMARY KEY,customer_name VARCHAR(100), customer_phone VARCHAR(20), customer_email VARCHAR(100));
+
+CREATE TABLE Car (car_id INT PRIMARY KEY, make VARCHAR(50),model VARCHAR(50),year INT, price DECIMAL(10, 2));
+
+CREATE TABLE Salesperson (salesperson_id INT PRIMARY KEY,salesperson_name VARCHAR(100),salesperson_phone VARCHAR(20),salesperson_email VARCHAR(100));
+
+CREATE TABLE Transaction (transaction_id INT PRIMARY KEY,transaction_date DATE, customer_id INT, salesperson_id INT, car_id INT,
+    amount_paid DECIMAL(10, 2), FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
+    FOREIGN KEY (salesperson_id) REFERENCES Salesperson(salesperson_id), FOREIGN KEY (car_id) REFERENCES Car(car_id));
+
+-- Sample data insertion
+INSERT INTO Customer (customer_id, customer_name, customer_phone, customer_email)
+VALUES (1, 'John Doe', '123-456-7890', 'john.doe@example.com'),
+       (2, 'Jane Smith', '987-654-3210', 'jane.smith@example.com');
+
+INSERT INTO Car (car_id, make, model, year, price)
+VALUES (1, 'Toyota', 'Camry', 2023, 25000.00),
+       (2, 'Honda', 'Accord', 2023, 27000.00);
+
+INSERT INTO Salesperson (salesperson_id, salesperson_name, salesperson_phone, salesperson_email)
+VALUES (1, 'Mike Johnson', '555-123-4567', 'mike.johnson@example.com'),
+       (2, 'Sarah Brown', '555-987-6543', 'sarah.brown@example.com');
+
+-- Example of using stored function for inserting into Transaction table
+-- Assume we have a stored function to calculate transaction amount based on car price and any discounts/sales
+-- Here's a simplified example using direct inserts
+
+INSERT INTO Transaction (transaction_id, transaction_date, customer_id, salesperson_id, car_id, amount_paid)
+VALUES (1, '2024-06-23', 1, 1, 1, 25000.00);  -- John Doe buys Toyota Camry from Mike Johnson
+
+INSERT INTO Transaction (transaction_id, transaction_date, customer_id, salesperson_id, car_id, amount_paid)
+VALUES (2, '2024-06-23', 2, 2, 2, 27000.00);  -- Jane Smith buys Honda Accord from Sarah Brown
+Submission Files:
+ERD PDF: Export the ERD diagram from Lucidchart as a PDF.
+SQL Code: Include the SQL code used to create the database schema and insert sample data.
+Database Setup in DBeaver: Ensure the database and tables are created in DBeaver, with at least two records in each table (including records inserted via stored functions).
